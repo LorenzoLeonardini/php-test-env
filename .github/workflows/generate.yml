@@ -19,8 +19,8 @@ jobs:
     - name: Pull repo
       uses: actions/checkout@v2
 
-    - name: Generate .env
-      run: echo "PHP_VERSION=${{ matrix.php }}" > .env
+    - name: Generate PHP_VERSION file
+      run: echo "${{ matrix.php }}" > PHP_VERSION
       shell: bash
 
     - name: Build and Publish head Docker image

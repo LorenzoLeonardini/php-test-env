@@ -1,11 +1,9 @@
 FROM ubuntu:latest
 MAINTAINER Lorenzo Leonardini
 
-COPY .env .
+COPY PHP_VERSION .
 
-# load version from .env
-RUN PHP_VERSION=$(grep PHP_VERSION .env | xargs)
-RUN IFS='=' read -ra PHP_VERSION <<< "$PHP_VERSION"
-RUN PHP_VERSION=${PHP_VERSION[1]}
+# load version
+RUN PHP_VERSION=$(cat PHP_VERSION)
 
 RUN echo "$PHP_VERSION"
