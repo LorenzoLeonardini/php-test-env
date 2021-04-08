@@ -2,6 +2,8 @@ FROM ubuntu:latest
 MAINTAINER Lorenzo Leonardini
 
 COPY PHP_VERSION .
+COPY install-php.sh .
 
 # load version
-RUN echo "$(cat PHP_VERSION)"
+RUN chmod +x install-php.sh
+RUN ./install-php.sh $(cat PHP_VERSION)
