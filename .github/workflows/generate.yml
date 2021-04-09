@@ -21,7 +21,7 @@ jobs:
 
     - name: Setup PHP version
       run: |
-        MY_VER=$(grep "${{ matrix.php }}" PHP_VERSIONS | xargs)
+        MY_VER=$(grep "${{ matrix.php }}=" PHP_VERSIONS | xargs)
         IFS='=' read -ra MY_VER <<< "$MY_VER"
         MY_VER=${MY_VER[1]}
         sed "s/\[\[version\]\]/$MY_VER/g" Dockerfile > Dockerfile.tmp; mv Dockerfile.tmp Dockerfile
