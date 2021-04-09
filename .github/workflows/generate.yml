@@ -25,6 +25,7 @@ jobs:
         IFS='=' read -ra MY_VER <<< "$MY_VER"
         MY_VER=${MY_VER[1]}
         sed "s/\[\[version\]\]/$MY_VER/g" Dockerfile > Dockerfile.tmp; mv Dockerfile.tmp Dockerfile
+        head -2 Dockerfile
       shell: bash
 
     - name: Build and Publish head Docker image
