@@ -15,7 +15,7 @@ install_openssl1_0()
     cd openssl-OpenSSL_1_0_2p
     ./config -fPIC shared --prefix=/usr/local --openssldir=/usr/local/openssl
     make -j $(nproc)
-    sudo make install
+    make install
 }
 
 install_postgresql()
@@ -26,7 +26,7 @@ install_postgresql()
     cd postgresql-9.6.15
     ./configure --prefix=/usr/local
     make -j $(nproc)
-    sudo make install
+    make install
 }
 
 install_ext_openssl()
@@ -36,7 +36,7 @@ install_ext_openssl()
     $(phpenv root)/versions/${version}/bin/phpize
     ./configure --with-php-config=$(phpenv root)/versions/${version}/bin/php-config
     make -j $(nproc)
-    sudo make install
+    make install
     echo "extension=openssl.so" > $(phpenv root)/versions/${version}/etc/conf.d/openssl.ini
 }
 
@@ -45,19 +45,14 @@ export PATH="$HOME/.phpenv/bin:$PATH"
 eval "$(phpenv init -)"
 git clone https://github.com/php-build/php-build $(phpenv root)/plugins/php-build
 
-sudo apt-fast update
-
 # sudo apt-get purge 'php*'
 if [ $release == 'xenial' ]
 then
-    sudo apt-fast purge 'libssl1.1'
-    sudo apt-fast purge 'postgresql*'
+    apt-get purge 'libssl1.1'
+    apt-get purge 'postgresql*'
 fi
-sudo apt-fast install -y libcurl4-nss-dev libjpeg-dev re2c libxml2-dev \
-     libtidy-dev libxslt-dev libmcrypt-dev libreadline-dev libfreetype6-dev \
-     libonig-dev zlib1g-dev libzip-dev mysql-client
 
-sudo ln -s /usr/include/x86_64-linux-gnu/curl /usr/local/include/curl
+ln -s /usr/include/x86_64-linux-gnu/curl /usr/local/include/curl
 
 install_openssl1_0
 install_postgresql
@@ -121,16 +116,16 @@ tar -x --strip-components 1 -f ${PHP_BUILD_TMPDIR}/packages/php-${version}.tar.b
 phpenv install -v -s $version
 install_ext_openssl
 
-sudo update-alternatives --install /usr/bin/php php $(phpenv root)/versions/${version}/bin/php 10
-sudo update-alternatives --install /usr/bin/phar phar $(phpenv root)/versions/${version}/bin/phar 10
-sudo update-alternatives --install /usr/bin/phpdbg phpdbg $(phpenv root)/versions/${version}/bin/phpdbg 10
-sudo update-alternatives --install /usr/bin/php-cgi php-cgi $(phpenv root)/versions/${version}/bin/php-cgi 10
-sudo update-alternatives --install /usr/bin/phar.phar phar.phar $(phpenv root)/versions/${version}/bin/phar.phar 10
+update-alternatives --install /usr/bin/php php $(phpenv root)/versions/${version}/bin/php 10
+update-alternatives --install /usr/bin/phar phar $(phpenv root)/versions/${version}/bin/phar 10
+update-alternatives --install /usr/bin/phpdbg phpdbg $(phpenv root)/versions/${version}/bin/phpdbg 10
+update-alternatives --install /usr/bin/php-cgi php-cgi $(phpenv root)/versions/${version}/bin/php-cgi 10
+update-alternatives --install /usr/bin/phar.phar phar.phar $(phpenv root)/versions/${version}/bin/phar.phar 10
 
-sudo update-alternatives --set php $(phpenv root)/versions/${version}/bin/php
-sudo update-alternatives --set phar $(phpenv root)/versions/${version}/bin/phar
-sudo update-alternatives --set phpdbg $(phpenv root)/versions/${version}/bin/phpdbg
-sudo update-alternatives --set php-cgi $(phpenv root)/versions/${version}/bin/php-cgi
-sudo update-alternatives --set phar.phar $(phpenv root)/versions/${version}/bin/phar.phar
+update-alternatives --set php $(phpenv root)/versions/${version}/bin/php
+update-alternatives --set phar $(phpenv root)/versions/${version}/bin/phar
+update-alternatives --set phpdbg $(phpenv root)/versions/${version}/bin/phpdbg
+update-alternatives --set php-cgi $(phpenv root)/versions/${version}/bin/php-cgi
+update-alternatives --set phar.phar $(phpenv root)/versions/${version}/bin/phar.phar
 
 php -i
