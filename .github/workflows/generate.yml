@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         operating-system: [ ubuntu-latest ]
-        php: [ '7.4.16', '8.0.0', '8.0.2', '8.0.3' ]
+        php: [ '7.4.1', '7.4.7', '7.4.16', '8.0.0', '8.0.2', '8.0.3' ]
 
     name: Generating PHP ${{ matrix.php }} image
 
@@ -19,8 +19,12 @@ jobs:
     - name: Pull repo
       uses: actions/checkout@v2
 
-    - name: Generate PHP_VERSION file
-      run: echo "${{ matrix.php }}" > PHP_VERSION
+    - name: Setup PHP version
+      run: |
+        MY_VER=$(grep "${{ matrix.php }}" PHP_VERSIONS | xargs)
+        IFS='=' read -ra MY_VER <<< "$MY_VER"
+        MY_VER=${MY_VER[1]}
+        sed "s/\[\[version\]\]/$MY_VER/g" Dockerfile > Dockerfile.tmp; mv Dockerfile.tmp Dockerfile
       shell: bash
 
     - name: Build and Publish head Docker image
