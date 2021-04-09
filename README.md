@@ -15,4 +15,27 @@ In short, this repo is made to generate some docker images used to do unit testi
 
 ## How to use
 
-> Example coming as soon as I get this to work
+The following example is extracted from my GH Action for unit testing. It demonstrates the use with a matrix for different versions (which is obviously not needed).
+
+```yml
+jobs:
+  unit-testing:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        operating-system: [ ubuntu-latest ]
+        php: [ '8.0.0', '8.0.3' ]
+
+    container:
+      image: docker.pkg.github.com/lorenzoleonardini/php-test-env/php-test-env:${{ matrix.php }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.ghcr_token }}
+
+    name: Unit test on PHP ${{ matrix.php }}
+
+    steps:
+    - name: Pull repo
+      uses: actions/checkout@v2
+```
