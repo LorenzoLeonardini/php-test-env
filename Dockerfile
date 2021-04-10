@@ -13,5 +13,7 @@ RUN mv /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
 RUN pear config-set php_ini /usr/local/etc/php/php.ini
 RUN pecl install xdebug
 
+ENV XDEBUG_MODE=coverage
+
 RUN mkdir -p /var/app
 WORKDIR /var/app
