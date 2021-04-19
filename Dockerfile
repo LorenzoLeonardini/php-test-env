@@ -1,7 +1,7 @@
 FROM php:[[version]]
 MAINTAINER Lorenzo Leonardini
 
-RUN apk add bash autoconf g++ make
+RUN apk add bash autoconf g++ make git
 
 # install composer
 RUN curl -sS https://getcomposer.org/installer -o composer-setup.php; \
